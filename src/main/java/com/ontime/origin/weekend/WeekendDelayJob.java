@@ -42,11 +42,11 @@ public class WeekendDelayJob extends Configured implements Tool{
 //		job.setSortComparatorClass(WeekendComplexKeyComparator.class);
 		
 		
-//		Path inputDir = new Path("dataexpo");
-//		Path outputDir = new Path("result/weekend/");
+		Path inputDir = new Path("dataexpo");
+		Path outputDir = new Path("result/weekend/");
 		
-		Path inputDir = new Path("dataexpo/1987_nohead.csv");
-		Path outputDir = new Path("result/weekend/1987");
+//		Path inputDir = new Path("dataexpo/1987_nohead.csv");
+//		Path outputDir = new Path("result/weekend/1987");
 		
 		FileInputFormat.addInputPath(job, inputDir);
 		FileOutputFormat.setOutputPath(job, outputDir);

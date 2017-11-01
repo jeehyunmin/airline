@@ -31,7 +31,7 @@ public class OriginDelayMapper extends Mapper<LongWritable, Text, Text, IntWrita
 		// 출발 지연인 경우
 		if(parser.isDepDelayAvailable()){
 			if(parser.getDepDelay() > 0){
-				outputKey.set("D," + parser.getOrigin());
+				outputKey.set(parser.getOrigin());
 				context.write(outputKey, outputValue);
 			} else if(parser.getDepDelay() ==0) {
 				context.getCounter(DelayCounters.scheduled_departure).increment(1);
@@ -41,20 +41,7 @@ public class OriginDelayMapper extends Mapper<LongWritable, Text, Text, IntWrita
 		} else {
 			context.getCounter(DelayCounters.not_available_departure).increment(1);
 		}
-
-		// 도착 지연인 경우
-		if(parser.isArrDelayAvailable()){
-			if(parser.getArrDelay() > 0){
-				outputKey.set("A," + parser.getOrigin());
-				context.write(outputKey, outputValue);
-			} else if(parser.getArrDelay() ==0) {
-				context.getCounter(DelayCounters.scheduled_arrival).increment(1);
-			} else if(parser.getArrDelay() < 0){
-				context.getCounter(DelayCounters.early_arrival).increment(1);
-			}
-		} else {
-			context.getCounter(DelayCounters.not_available_arrival).increment(1);
-		}
+		context.getCounter(DelayCounters.not_available_arrival).increment(1);
 	
 	}
 }
