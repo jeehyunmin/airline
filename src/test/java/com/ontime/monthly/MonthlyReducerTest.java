@@ -9,6 +9,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mrunit.mapreduce.ReduceDriver;
 import org.junit.Test;
 
+import com.ontime.old.monthly.MonthlyComplexKey;
+import com.ontime.old.monthly.MonthlyDelayReducer;
 import com.ontime.origin.OriginDelayReducer;
 
 public class MonthlyReducerTest {

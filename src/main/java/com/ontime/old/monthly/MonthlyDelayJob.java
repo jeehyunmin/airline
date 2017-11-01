@@ -1,4 +1,4 @@
-package com.ontime.origin;
+package com.ontime.old.monthly;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -15,10 +15,10 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class OriginDelayJob extends Configured implements Tool{
+public class MonthlyDelayJob extends Configured implements Tool{
 	
 	public static void main(String[] args) throws Exception {
-		 	ToolRunner.run(new OriginDelayJob(), args);
+		 	ToolRunner.run(new MonthlyDelayJob(), args);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -32,30 +32,40 @@ public class OriginDelayJob extends Configured implements Tool{
 //		conf.set("mapreduce.framework.name", "yarn");
 //		conf.set("yarn.resourcemanager.scheduler.address", "bigdata01:8030");
 		
-		Job job = new Job(getConf(), "Origin Delay Counts");
+		Job job = new Job(conf, "Monthly Delay Counts");
 		
 		job.setJar("target/airline-0.0.1.jar");
-		job.setJarByClass(OriginDelayJob.class);
+		job.setJarByClass(MonthlyDelayJob.class);
+		
+		job.setPartitionerClass(MonthlyGroupKeyPartitioner.class);
+		job.setGroupingComparatorClass(MonthlyGroupKeyComparator.class);
+		job.setSortComparatorClass(MonthlyComplexKeyComparator.class);
 
 //		Path inputDir = new Path("dataexpo/1987_nohead.csv");
-//		Path outputDir = new Path("result/origin/1987");
+//		Path outputDir = new Path("result/monthly/1987");
 		
 		Path inputDir = new Path("dataexpo");
-		Path outputDir = new Path("result/origin/");
+		Path outputDir = new Path("result/monthly/");
 		
 		FileInputFormat.addInputPath(job, inputDir);
 		FileOutputFormat.setOutputPath(job, outputDir);
 		
-		job.setMapperClass(OriginDelayMapper.class);
-		job.setReducerClass(OriginDelayReducer.class);
-//		job.setCombinerClass(OriginDelayReducer.class);
+		job.setMapperClass(MonthlyDelayMapper.class);
+		job.setReducerClass(MonthlyDelayReducer.class);
 		
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
 		
-		job.setOutputKeyClass(Text.class);
+		job.setMapOutputKeyClass(MonthlyComplexKey.class);
+		job.setMapOutputValueClass(IntWritable.class);
+		
+		job.setOutputKeyClass(MonthlyComplexKey.class);
 		job.setOutputValueClass(IntWritable.class);
+		
+		MultipleOutputs.addNamedOutput(job, "monthDeparture", TextOutputFormat.class, MonthlyComplexKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "monthArrival", TextOutputFormat.class, MonthlyComplexKey.class, IntWritable.class);
 
+		
 		FileSystem hdfs = FileSystem.get(conf);
 		hdfs.delete(outputDir, true);
 		
