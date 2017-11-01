@@ -38,9 +38,9 @@ public class HourDelayJob extends Configured implements Tool{
 		job.setJar("target/airline-0.0.1.jar");
 		job.setJarByClass(HourDelayJob.class);
 		
-//		job.setPartitionerClass(HourGroupKeyPartitioner.class);
-//		job.setGroupingComparatorClass(HourGroupKeyComparator.class);
-//		job.setSortComparatorClass(HourComplexKeyComparator.class);
+		job.setPartitionerClass(HourGroupKeyPartitioner.class);
+		job.setGroupingComparatorClass(HourGroupKeyComparator.class);
+		job.setSortComparatorClass(HourComplexKeyComparator.class);
 		
 		//whole dataset
 		Path inputDir = new Path("dataexpo");
@@ -66,8 +66,8 @@ public class HourDelayJob extends Configured implements Tool{
 //		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 		
-		MultipleOutputs.addNamedOutput(job, "hour-departure", TextOutputFormat.class, HourComplexKey.class, IntWritable.class);
-		MultipleOutputs.addNamedOutput(job, "hour-arrival", TextOutputFormat.class, HourComplexKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "hourDeparture", TextOutputFormat.class, HourComplexKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "hourArrival", TextOutputFormat.class, HourComplexKey.class, IntWritable.class);
 		
 //		MultipleOutputs.addNamedOutput(job, "departure", TextOutputFormat.class, Text.class, IntWritable.class);
 //		MultipleOutputs.addNamedOutput(job, "arrival", TextOutputFormat.class, Text.class, IntWritable.class);

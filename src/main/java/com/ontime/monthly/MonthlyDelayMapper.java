@@ -24,8 +24,6 @@ public class MonthlyDelayMapper extends Mapper<LongWritable, Text, MonthlyComple
 		log.info("monthly mapper started");
 	}
 	
-	
-	
 	@Override
 	protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		
@@ -37,6 +35,7 @@ public class MonthlyDelayMapper extends Mapper<LongWritable, Text, MonthlyComple
 				outputKey.setOrigin("D," + parser.getOrigin());
 				outputKey.setMonth(parser.getMonth());
 				context.write(outputKey, outputValue);
+				log.info("mapper D outputKey = "+ outputKey + ", outputValue = "+ outputValue);
 			} else if(parser.getDepDelay() ==0) {
 				context.getCounter(DelayCounters.scheduled_departure).increment(1);
 			} else if(parser.getDepDelay() < 0){
@@ -52,6 +51,7 @@ public class MonthlyDelayMapper extends Mapper<LongWritable, Text, MonthlyComple
 				outputKey.setOrigin("A," + parser.getOrigin());
 				outputKey.setMonth(parser.getMonth());
 				context.write(outputKey, outputValue);
+				log.info("mapper A outputKey = "+ outputKey + ", outputValue = "+ outputValue);
 			} else if(parser.getArrDelay() ==0) {
 				context.getCounter(DelayCounters.scheduled_arrival).increment(1);
 			} else if(parser.getArrDelay() < 0){

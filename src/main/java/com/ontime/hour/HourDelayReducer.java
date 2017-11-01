@@ -42,7 +42,7 @@ public class HourDelayReducer extends Reducer<HourComplexKey, IntWritable, HourC
 					outputValue.set(sum);
 //					outputKey.set(key.getOrigin().substring(2)+","+bHour+",");
 					outputKey.setHour(bHour);
-					multiKey.write("departure", outputKey, outputValue);
+					multiKey.write("hourDeparture", outputKey, outputValue);
 					sum =0; 			//초기화
 				}
 				
@@ -55,7 +55,7 @@ public class HourDelayReducer extends Reducer<HourComplexKey, IntWritable, HourC
 				outputKey.setOrigin(key.getOrigin().substring(2));
 				outputKey.setHour(key.getHour());
 				outputValue.set(sum);
-				multiKey.write("departure", outputKey, outputValue);	
+				multiKey.write("hourDeparture", outputKey, outputValue);	
 			}
 			
 		} else {
@@ -66,7 +66,7 @@ public class HourDelayReducer extends Reducer<HourComplexKey, IntWritable, HourC
 //					outputKey.set(key.getOrigin().substring(2)+","+bHour+",");
 					outputKey.setOrigin(key.getOrigin().substring(2));
 					outputKey.setHour(bHour);
-					multiKey.write("arrival", outputKey, outputValue);
+					multiKey.write("hourArrival", outputKey, outputValue);
 					sum =0; 			//초기화
 				}
 				
@@ -79,7 +79,7 @@ public class HourDelayReducer extends Reducer<HourComplexKey, IntWritable, HourC
 				outputKey.setOrigin(key.getOrigin().substring(2));
 				outputKey.setHour(key.getHour());
 				outputValue.set(sum);
-				multiKey.write("arrival", outputKey, outputValue);	
+				multiKey.write("hourArrival", outputKey, outputValue);	
 			}
 		}
 			

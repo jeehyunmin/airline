@@ -37,9 +37,9 @@ public class WeekendDelayJob extends Configured implements Tool{
 		job.setJar("target/airline-0.0.1.jar");
 		job.setJarByClass(WeekendDelayJob.class);
 		
-//		job.setPartitionerClass(WeekendGroupKeyPartitioner.class);
-//		job.setGroupingComparatorClass(WeekendGroupKeyComparator.class);
-//		job.setSortComparatorClass(WeekendComplexKeyComparator.class);
+		job.setPartitionerClass(WeekendGroupKeyPartitioner.class);
+		job.setGroupingComparatorClass(WeekendGroupKeyComparator.class);
+		job.setSortComparatorClass(WeekendComplexKeyComparator.class);
 		
 		Path inputDir = new Path("dataexpo");
 		Path outputDir = new Path("result/weekend/");
@@ -62,8 +62,8 @@ public class WeekendDelayJob extends Configured implements Tool{
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 		
-		MultipleOutputs.addNamedOutput(job, "weekend-departure", TextOutputFormat.class, WeekendComplexKey.class, IntWritable.class);
-		MultipleOutputs.addNamedOutput(job, "weekend-arrival", TextOutputFormat.class, WeekendComplexKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "weekendDeparture", TextOutputFormat.class, WeekendComplexKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "weekendArrival", TextOutputFormat.class, WeekendComplexKey.class, IntWritable.class);
 		
 		FileSystem hdfs = FileSystem.get(conf);
 		hdfs.delete(outputDir, true);

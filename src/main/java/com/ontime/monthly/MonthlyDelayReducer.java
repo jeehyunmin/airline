@@ -38,7 +38,8 @@ public class MonthlyDelayReducer extends Reducer<MonthlyComplexKey, IntWritable,
 					outputValue.set(sum);
 					outputKey.setOrigin(key.getOrigin().substring(2));
 					outputKey.setMonth(bMonth);
-					multiKey.write("departure", outputKey, outputValue);
+					multiKey.write("monthDeparture", outputKey, outputValue);
+					log.info("reducer D: "+"outputKey = "+ outputKey + ", outputValue = "+ outputValue);
 					sum =0; 			//초기화
 				}
 				
@@ -50,7 +51,8 @@ public class MonthlyDelayReducer extends Reducer<MonthlyComplexKey, IntWritable,
 				outputKey.setOrigin(key.getOrigin().substring(2));
 				outputKey.setMonth(key.getMonth());
 				outputValue.set(sum);
-				multiKey.write("departure", outputKey, outputValue);	
+				multiKey.write("monthDeparture", outputKey, outputValue);
+				log.info("reducer D: "+"outputKey = "+ outputKey + ", outputValue = "+ outputValue);
 			}
 			
 		} else {
@@ -60,7 +62,8 @@ public class MonthlyDelayReducer extends Reducer<MonthlyComplexKey, IntWritable,
 					outputValue.set(sum);
 					outputKey.setOrigin(key.getOrigin().substring(2));
 					outputKey.setMonth(bMonth);
-					multiKey.write("arrival", outputKey, outputValue);
+					multiKey.write("monthArrival", outputKey, outputValue);
+					log.info("reducer A: "+"outputKey = "+ outputKey + ", outputValue = "+ outputValue);
 					sum =0; 			//초기화
 				}
 				
@@ -72,10 +75,10 @@ public class MonthlyDelayReducer extends Reducer<MonthlyComplexKey, IntWritable,
 				outputKey.setOrigin(key.getOrigin().substring(2));
 				outputKey.setMonth(key.getMonth());
 				outputValue.set(sum);
-				multiKey.write("arrival", outputKey, outputValue);	
+				multiKey.write("monthArrival", outputKey, outputValue);	
+				log.info("reducer A: "+"outputKey = "+ outputKey + ", outputValue = "+ outputValue);
 			}
 		}
-			
 	}
 
 	@Override

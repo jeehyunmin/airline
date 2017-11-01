@@ -37,7 +37,7 @@ public class WeekendDelayReducer extends Reducer<WeekendComplexKey, IntWritable,
 				if(bWeekend !=key.getWeekend()){
 					outputValue.set(sum);
 					outputKey.setWeekend(bWeekend);
-					multiKey.write("departure", outputKey, outputValue);
+					multiKey.write("weekendDeparture", outputKey, outputValue);
 					sum =0; 			//초기화
 				}
 				
@@ -49,7 +49,7 @@ public class WeekendDelayReducer extends Reducer<WeekendComplexKey, IntWritable,
 				outputKey.setOrigin(key.getOrigin().substring(2));
 				outputKey.setWeekend(key.getWeekend());
 				outputValue.set(sum);
-				multiKey.write("departure", outputKey, outputValue);	
+				multiKey.write("weekendDeparture", outputKey, outputValue);	
 			}
 			
 		} else {
@@ -59,7 +59,7 @@ public class WeekendDelayReducer extends Reducer<WeekendComplexKey, IntWritable,
 					outputValue.set(sum);
 					outputKey.setOrigin(key.getOrigin().substring(2));
 					outputKey.setWeekend(bWeekend);
-					multiKey.write("arrival", outputKey, outputValue);
+					multiKey.write("weekendArrival", outputKey, outputValue);
 					sum =0; 			//초기화
 				}
 				
@@ -71,7 +71,7 @@ public class WeekendDelayReducer extends Reducer<WeekendComplexKey, IntWritable,
 				outputKey.setOrigin(key.getOrigin().substring(2));
 				outputKey.setWeekend(key.getWeekend());
 				outputValue.set(sum);
-				multiKey.write("arrival", outputKey, outputValue);	
+				multiKey.write("weekendArrival", outputKey, outputValue);	
 			}
 		}
 			

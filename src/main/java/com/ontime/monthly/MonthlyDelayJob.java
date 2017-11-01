@@ -2,6 +2,7 @@ package com.ontime.monthly;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
@@ -36,9 +37,9 @@ public class MonthlyDelayJob extends Configured implements Tool{
 		job.setJar("target/airline-0.0.1.jar");
 		job.setJarByClass(MonthlyDelayJob.class);
 		
-//		job.setPartitionerClass(MonthlyGroupKeyPartitioner.class);
-//		job.setGroupingComparatorClass(MonthlyGroupKeyComparator.class);
-//		job.setSortComparatorClass(MonthlyComplexKeyComparator.class);
+		job.setPartitionerClass(MonthlyGroupKeyPartitioner.class);
+		job.setGroupingComparatorClass(MonthlyGroupKeyComparator.class);
+		job.setSortComparatorClass(MonthlyComplexKeyComparator.class);
 
 //		Path inputDir = new Path("dataexpo/1987_nohead.csv");
 //		Path outputDir = new Path("result/monthly/1987");
@@ -61,9 +62,12 @@ public class MonthlyDelayJob extends Configured implements Tool{
 		job.setOutputKeyClass(MonthlyComplexKey.class);
 		job.setOutputValueClass(IntWritable.class);
 		
-		MultipleOutputs.addNamedOutput(job, "month-departure", TextOutputFormat.class, MonthlyComplexKey.class, IntWritable.class);
-		MultipleOutputs.addNamedOutput(job, "month-arrival", TextOutputFormat.class, MonthlyComplexKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "monthDeparture", TextOutputFormat.class, MonthlyComplexKey.class, IntWritable.class);
+		MultipleOutputs.addNamedOutput(job, "monthArrival", TextOutputFormat.class, MonthlyComplexKey.class, IntWritable.class);
 
+		
+		FileSystem hdfs = FileSystem.get(conf);
+		hdfs.delete(outputDir, true);
 		
 		job.waitForCompletion(true);
 		
